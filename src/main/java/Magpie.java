@@ -66,6 +66,20 @@ public class Magpie
         {
             response = "Sports!";
         }
+        else if (findWord(statement, "I want") >= 0){
+            response = transformIWantStatement(statement);
+        }
+        else if (findWord(statement, "I want to") >= 0){
+            response = transformIWantToStatement(statement);
+        }
+        else if (findWord(statement, "I") >= 0 
+                && findWord(statement, "you") >= 0){
+            response = transformIYouStatement(statement);
+        }
+        else if (findWord(statement, "You") >= 0 
+                && findWord(statement, "Me") >= 0){
+            response = transformYouMeStatement(statement);
+        }
         else
         {
             
@@ -155,15 +169,10 @@ public class Magpie
      * @return the transformed statement
      */
     public String transformIWantStatement(String statement){
-        String s = statement.trim();
-        String end = s.substring(s.length()-1);
-        if (end.equals(".")){
-            s = s.substring(0,s.length()-1);
-        }
-            
-        int word_loc = findWord(s, "I want");
-        String towhat = s.substring(word_loc+7).trim();
-        return "Would you really be happy if you had " + towhat+ "?";
+                   
+        int word_loc = findWord(statement, "I want");
+        String towhat = statement.substring(word_loc+7);
+        return "Would you really be happy if you had " + towhat + "?";
 
     }
        
@@ -175,15 +184,12 @@ public class Magpie
      * @return the transformed statement
      */
     public String transformIYouStatement(String statement){
-        String s = statement.trim();
-        String end = s.substring(s.length()-1);
-        if (end.equals(".")){
-            s = s.substring(0,s.length()-1);
-        }
-        int x = findWord(s, "I");
-        int y = findWord(s, "me");
-        String towhat = s.substring(x+1,y).trim();
-        return "Why do you " + towhat+ "me?";
+        
+        int x = findWord(statement, "I");
+        int y = findWord(statement, "you");
+        String towhat = statement.substring(x+2,y-1);
+        return "Why do you " + towhat + " me?";
+        
     }
    
             
@@ -197,14 +203,9 @@ public class Magpie
      * @return the transformed statement
      */
     public String transformIWantToStatement(String statement){
-        String s = statement.trim();
-        String end = s.substring(s.length()-1);
-        if (end.equals(".")){
-            s = s.substring(0,s.length()-1);
-
-        }
-        int word_loc = findWord(s, "I want to");
-        String towhat = s.substring(word_loc+8).trim();
+        
+        int word_loc = findWord(statement, "I want to");
+        String towhat = statement.substring(word_loc+10);
         return "What would it mean to " + towhat+ "?";
     }
      
@@ -221,15 +222,11 @@ public class Magpie
      * @return the transformed statement
      */
     public String transformYouMeStatement(String statement){
-        String s = statement.trim();
-        String end = s.substring(s.length()-1);
-        if (end.equals(".")){
-            s = s.substring(0,s.length()-1);
-        }
-        int x = findWord(s, "you");
-        int y = findWord(s, "me");
-        String towhat = s.substring(x+3,y).trim();
-        return "What makes you think that I " + towhat+ "you?";
+        
+        int x = findWord(statement, "you");
+        int y = findWord(statement, "me");
+        String towhat = statement.substring(x+4,y-1);
+        return "What makes you think that I " + towhat+ " you?";
     }
    
 }
